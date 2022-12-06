@@ -35,12 +35,13 @@ void generateFile(std::ofstream& f, const float hz, const float lengthSeconds)
     long sampleCount = 0;
     double wavelengthInSamples = sampleRate / hz;
     const int maxAmplitude = 8388607;
+    const double pi = 3.14159265358979323846264338327950288;
     while (sampleCount < maxSampleCount)
     {
         for(int i = 0; i<wavelengthInSamples; i++)
         {
             int32_t sample;
-            sample = maxAmplitude * sin(2 * M_PI * (i / wavelengthInSamples));
+            sample = maxAmplitude * sin(2 * pi * (i / wavelengthInSamples));
             writeWord(f, sample, 3);
             sampleCount++;
         }
