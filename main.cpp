@@ -33,15 +33,16 @@ void generateFile(std::ofstream& f, const float hz, const float lengthSeconds)
     // Start writing samples
     long maxSampleCount = sampleRate * lengthSeconds;
     long sampleCount = 0;
-    double wavelengthInSamples = sampleRate / hz;
+    int wavelengthInSamples = sampleRate / hz;
     const int maxAmplitude = 8388607;
-    const double pi = 3.14159265358979323846264338327950288;
+    const float pi = 3.14159265358979323846264338327950288;
+    int32_t previous = 0;
     while (sampleCount < maxSampleCount)
     {
         for(int i = 0; i<wavelengthInSamples; i++)
         {
             int32_t sample;
-            sample = maxAmplitude * sin(2 * pi * (i / wavelengthInSamples));
+            sample = maxAmplitude * sin(2 * pi * (i / (float)wavelengthInSamples));
             writeWord(f, sample, 3);
             sampleCount++;
         }
@@ -89,5 +90,6 @@ int main(int argc, char *argv[])
     catch (std::ofstream::failure &e) 
     {
         std::cerr << "Error when generating the file: " << e.what() << std::endl;
+        return 1;
     }
 }
